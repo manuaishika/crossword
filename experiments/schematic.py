@@ -39,14 +39,14 @@ def main():
     for y0, name in [(2.0, "Firm A"), (0.25, "Firm B")]:
         box(ax, 0.1, y0, 2.6, y0 + 1.25, RL)
         text(ax, 1.35, y0 + 0.95, f"{name}'s pricing agent", 9.5, INK, "semibold")
-        text(ax, 1.35, y0 + 0.42, "Q-learner (Calvano et al. 2020)\nor LLM agent (Qwen2.5-7B)\n"
+        text(ax, 1.35, y0 + 0.42, "Q-learning agent (Calvano et al. 2020)\nsees last period's prices\n"
              "goal: its own long-run profit", 7.6)
 
     # observation filter
     box(ax, 3.05, 0.95, 4.45, 2.55, ORANGE, fill="#fff5ef")
     text(ax, 3.75, 2.27, "Intervention", 9, INK, "semibold")
     text(ax, 3.75, 1.6, "what each agent sees\nof its rival's price:\nexact · higher/lower\n"
-         "noisy · delayed\nhidden · + messages", 7.4)
+         "noisy · delayed\nhidden", 7.4)
 
     # market
     box(ax, 5.0, 1.15, 6.5, 2.35, INK2)
@@ -56,13 +56,12 @@ def main():
     # auditor
     box(ax, 7.1, 0.25, 9.9, 3.25, BLUE)
     text(ax, 8.5, 3.0, "Auditor", 9.5, INK, "semibold")
-    text(ax, 8.5, 2.62, "What agents do", 8.2, BLUE, "semibold")
-    text(ax, 8.5, 2.08, "price level · parallel pricing\nlead–lag reaction\n"
-         "forced price cut: does the rival retaliate?", 7.4)
-    ax.plot([7.35, 9.65], [1.6, 1.6], color="#e6e5e1", lw=0.8)
-    text(ax, 8.5, 1.35, "What agents say (LLMs)", 8.2, LLM, "semibold")
-    text(ax, 8.5, 0.98, "keyword lexicon · LLM judge\nof the agent's private notes", 7.4)
-    text(ax, 8.5, 0.48, "ground truth: blind or myopic agents cannot\ncollude, yet may still price high",
+    text(ax, 8.5, 2.62, "Passive evidence", 8.2, BLUE, "semibold")
+    text(ax, 8.5, 2.18, "price level · parallel pricing\nlead–lag reaction to rival's moves", 7.4)
+    ax.plot([7.35, 9.65], [1.82, 1.82], color="#e6e5e1", lw=0.8)
+    text(ax, 8.5, 1.58, "Active evidence (probe)", 8.2, LLM, "semibold")
+    text(ax, 8.5, 1.14, "force one firm to undercut once:\ndoes the rival retaliate? does it pay?", 7.4)
+    text(ax, 8.5, 0.52, "ground truth: myopic or blind agents cannot\ncollude, yet may still price high",
          6.8, MUTED, style="italic")
 
     # flows
