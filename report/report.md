@@ -145,7 +145,16 @@ Under delay, the immediate punishment signal (D4) reads exactly 0, while D5 stil
 
 ### 4.4 Robustness
 
-**[ROBUSTNESS TABLE]**
+*Table 2. Mean Δ (95% CI) under alternative learning parameters (50 sessions per cell). The ranking holds in every setting: rounding leaves most collusion intact, noise and delay roughly halve it, and blindness removes it.*
+
+| Setting | None | Higher/lower | 20% noise | 1-period delay | Blind |
+|---|---|---|---|---|---|
+| main (α = 0.15, β = 10⁻⁵; 100 sessions) | 0.81 (0.79–0.83) | 0.75 (0.71–0.78) | 0.38 (0.37–0.40) | 0.48 (0.45–0.51) | −0.03 |
+| slower exploration (β = 4×10⁻⁶, as in Calvano et al.) | 0.83 (0.79–0.86) | 0.76 (0.71–0.80) | 0.30 (0.28–0.32) | 0.41 (0.37–0.46) | −0.03 |
+| lower learning rate (α = 0.1) | 0.81 (0.78–0.84) | 0.74 (0.69–0.78) | 0.47 (0.45–0.49) | 0.48 (0.44–0.52) | −0.05 |
+| higher learning rate (α = 0.25) | 0.83 (0.79–0.86) | 0.72 (0.66–0.77) | 0.34 (0.32–0.36) | 0.42 (0.38–0.47) | −0.04 |
+
+Across all four settings, rounding to one bit keeps 87–93% of baseline collusion, while 20% noise keeps 36–58% and a one-period delay keeps 49–59%. The size of the noise effect depends on the learning rate, but the ranking of the levers never changes.
 
 ## 5. Discussion and Limitations
 

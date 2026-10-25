@@ -1,7 +1,7 @@
-# Same Levers, Different Agents
+# One Bit Is Enough
 
-**Do anti-collusion interventions and audits transfer from reinforcement-learning to LLM pricing agents?**
-Apart Research AI Collusion Research Sprint, 23–25 October 2026.
+**Breaking and auditing tacit collusion between learning pricing agents.**
+Apart Research AI Collusion Research Sprint, 23–25 October 2026. Paper: [`report/report.pdf`](report/report.pdf).
 
 ![setup](results/figures/setup.png)
 
@@ -11,11 +11,11 @@ Two pricing agents compete in a repeated market. We control what each agent can 
 2. **Does collusion survive swapping an agent?** (question 1.2)
 3. **What evidence tells collusion from coincidence?** Here we compare behaviour (prices, reactions, a forced-deviation probe) with what LLM agents *write* in their private notes (questions 2.2 and 2.3).
 
-The **Q-learning study** (Calvano et al., 2020 setting) is complete: about 3,600 sessions on a CPU. Its results become predictions that the **LLM study** tests. The LLM study runs open-weight models on Modal GPUs.
+The **Q-learning study** (Calvano et al., 2020 setting) is complete: about 4,300 sessions on a CPU, including a robustness check across learning parameters. An **LLM-agent extension** of the same experiments is implemented and tested, with pre-registered predictions in the paper's Appendix B. It has not been run yet.
 
 ![Q-learning results](results/figures/rl_main.png)
 
-## Run the LLM study on Modal (you, about 45 minutes, about $1–2 of sprint credit)
+## Optional: run the LLM extension on Modal (about 45 minutes, about $1–2 of credit)
 
 ```bash
 git clone https://github.com/manuaishika/ai-sprint-apart && cd ai-sprint-apart
@@ -59,5 +59,5 @@ tests/             market benchmarks, determinism, prompt and parse checks, coun
 ```bash
 pip install -r requirements.txt
 python -m pytest -q tests
-python -m experiments.run_all && python -m experiments.analyze
+python -m experiments.run_all && python -m experiments.robustness && python -m experiments.analyze
 ```
