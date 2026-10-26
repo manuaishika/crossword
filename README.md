@@ -5,33 +5,31 @@ Apart Research AI Collusion Research Sprint, 23–25 October 2026. Paper: [`repo
 
 ![setup](results/figures/setup.png)
 
-Two pricing agents compete in a repeated market. We control what each agent can see of its rival's price (exact, rounded to higher/lower, noisy, delayed, hidden, or exact plus messages), and we ask three questions:
+Two pricing agents compete in a repeated market. We control what each agent can see of its rival's price (exact, rounded to higher/lower, noisy, delayed, or hidden), and ask four questions:
 
-1. **Which restriction breaks collusion?** (sprint questions 1.5 and 3.2)
-2. **Does collusion survive swapping an agent?** (question 1.2)
-3. **What evidence tells collusion from coincidence?** Here we compare behaviour (prices, reactions, a forced-deviation probe) with what LLM agents *write* in their private notes (questions 2.2 and 2.3).
+1. **Which restriction breaks collusion?** Rounding to one bit barely helps; noise and a one-period delay roughly halve it. (Sprint questions 1.5 and 3.2.)
+2. **Does collusion survive swapping an agent?** Not across partners, but a new entrant re-learns it. (Question 1.2.)
+3. **What behavioural evidence tells collusion from coincidence?** At equal prices, "prices are high" is a coin flip and "prices move together" points the wrong way; reaction tests work. (Questions 1.3 and 2.3.)
+4. **What do agents intend vs. what do they do?** Reading the agents' learned strategy reveals collusive intent that observation noise hides from their behaviour. For LLM agents, the counterpart is reading their private notes. (Question 2.2.)
 
-The **Q-learning study** (Calvano et al., 2020 setting) is complete: about 4,300 sessions on a CPU, including a robustness check across learning parameters. An **LLM-agent extension** of the same experiments is implemented and tested, with pre-registered predictions in the paper's Appendix B. It has not been run yet.
+Q-learning results cover about 4,300 sessions plus a robustness check across learning parameters. The same experiments are implemented for LLM agents as an extension, with predictions fixed in advance in the paper's Appendix B.
 
 ![Q-learning results](results/figures/rl_main.png)
 
-## Optional: run the LLM extension on Modal (about 45 minutes, about $1–2 of credit)
+![Mind vs hands](results/figures/mind_vs_hands.png)
+
+## Optional: the LLM-agent extension
+
+The same market, interventions and probes with LLM pricing agents (Qwen2.5-7B via vLLM on Modal), plus an LLM judge of the agents' private notes:
 
 ```bash
-git clone https://github.com/manuaishika/ai-sprint-apart && cd ai-sprint-apart
-pip install modal numpy scipy pandas matplotlib tabulate
-modal setup                                         # log in once in the browser
-
-modal run modal_app.py --seeds 2 --periods 20       # 3-min smoke test: check it finishes
-modal run modal_app.py                              # full run: Qwen2.5-7B, 6 conditions x 10 seeds
-python -m experiments.analyze_llm                   # tables + figures
-
-git add results/ && git commit -m "Add LLM results" && git push
+pip install modal && modal setup
+modal run modal_app.py --seeds 2 --periods 20     # quick check
+modal run modal_app.py                            # full grid: 6 conditions x 10 seeds
+python -m experiments.analyze_llm
 ```
 
-- **Why the smoke test first:** the first run also builds the GPU image (about 5 minutes) and downloads the model (about 15 GB). Both are cached for later runs.
-- **Optional second model:** `modal run modal_app.py --model Qwen/Qwen2.5-14B-Instruct` runs on an L40S.
-- **No Modal?** `python -m experiments.run_llm --engine anthropic` runs the same grid with Claude, if you have an `ANTHROPIC_API_KEY`.
+It can also run with Claude: `python -m experiments.run_llm --engine anthropic`.
 
 ## Layout
 
@@ -44,10 +42,12 @@ collusion_lab/
                    LLM-judge of agents' notes; engines: vLLM (via modal_app.py), Anthropic, Fake (tests)
 modal_app.py       runs the LLM grid on a Modal GPU with vLLM
 experiments/
-  run_all.py       all Q-learning experiments → results/*.csv           (about 15 min, 4 CPU cores)
+  run_all.py       all Q-learning experiments → results/*.csv           
   analyze.py       Q-learning tables (results/summary.md) and figures
   run_llm.py       LLM grid locally (fake bots for testing, or Claude)
   analyze_llm.py   LLM tables (results/llm_summary.md) and figures, compared with Q-learning predictions
+  robustness.py    main levers under alternative learning parameters
+  mind_vs_hands.py white-box audit: read agents' learned strategies vs. behavioural detectors
   schematic.py     Figure 1
   style.py         shared figure style
 report/            the submission (Apart template): report.md, report.pdf, report.docx
@@ -59,5 +59,5 @@ tests/             market benchmarks, determinism, prompt and parse checks, coun
 ```bash
 pip install -r requirements.txt
 python -m pytest -q tests
-python -m experiments.run_all && python -m experiments.robustness && python -m experiments.analyze
+python -m experiments.run_all && python -m experiments.robustness && python -m experiments.mind_vs_hands && python -m experiments.analyze
 ```

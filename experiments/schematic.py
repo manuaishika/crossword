@@ -39,7 +39,7 @@ def main():
     for y0, name in [(2.0, "Firm A"), (0.25, "Firm B")]:
         box(ax, 0.1, y0, 2.6, y0 + 1.25, RL)
         text(ax, 1.35, y0 + 0.95, f"{name}'s pricing agent", 9.5, INK, "semibold")
-        text(ax, 1.35, y0 + 0.42, "Q-learning agent (Calvano et al. 2020)\nsees last period's prices\n"
+        text(ax, 1.35, y0 + 0.42, "Q-learner (Calvano et al. 2020)\nor LLM agent (released extension)\n"
              "goal: its own long-run profit", 7.6)
 
     # observation filter
@@ -56,11 +56,11 @@ def main():
     # auditor
     box(ax, 7.1, 0.25, 9.9, 3.25, BLUE)
     text(ax, 8.5, 3.0, "Auditor", 9.5, INK, "semibold")
-    text(ax, 8.5, 2.62, "Passive evidence", 8.2, BLUE, "semibold")
-    text(ax, 8.5, 2.18, "price level · parallel pricing\nlead–lag reaction to rival's moves", 7.4)
-    ax.plot([7.35, 9.65], [1.82, 1.82], color="#e6e5e1", lw=0.8)
-    text(ax, 8.5, 1.58, "Active evidence (probe)", 8.2, LLM, "semibold")
-    text(ax, 8.5, 1.14, "force one firm to undercut once:\ndoes the rival retaliate? does it pay?", 7.4)
+    text(ax, 8.5, 2.64, "Watching the hands (behaviour)", 8.2, BLUE, "semibold")
+    text(ax, 8.5, 2.2, "price level · parallel pricing · lead–lag\nforced undercut: does the rival retaliate?", 7.4)
+    ax.plot([7.35, 9.65], [1.86, 1.86], color="#e6e5e1", lw=0.8)
+    text(ax, 8.5, 1.62, "Reading the mind (internals)", 8.2, LLM, "semibold")
+    text(ax, 8.5, 1.2, "Q-learner: read its learned strategy\nLLM agent: read its private notes", 7.4)
     text(ax, 8.5, 0.52, "ground truth: myopic or blind agents cannot\ncollude, yet may still price high",
          6.8, MUTED, style="italic")
 

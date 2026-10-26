@@ -11,3 +11,4 @@ blockquote { margin: 3pt 12pt; color: #333; font-size: 9.5pt; }
 strong { color: #000; }
 ul, ol, li { break-inside: auto; page-break-inside: auto; }
 p:has(> img) { break-inside: avoid; }
+h2, h3 { break-after: avoid; page-break-after: avoid; }
